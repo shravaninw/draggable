@@ -38,7 +38,6 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
   List s = ['Hi', 'Hello', 'Good'];
   List list = [];
-  var height = 350.0;
   List st = [];
   @override
   Widget build(BuildContext context) {
@@ -80,48 +79,48 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 20,
           ),
-          DragTarget<Color>(
-            builder: (BuildContext context, List<Object?> candidateData,
-                List<dynamic> rejectedData) {
-              return Container(
-                height: height,
-                child: ListView.builder(
-                    itemCount: list.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return DragTarget(
-                        builder: (BuildContext context,
-                            List<Object?> candidateData,
-                            List<dynamic> rejectedData) {
-                          return Container(
-                            height: 50,
-                            width: MediaQuery.of(context).size.width,
-                            color: list[index],
-                            child: Text(
-                              st[index],
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          );
-                        },
-                        onAccept: (String data) {
-                          setState(() {
-                            st[index] = data;
-                            print(data);
-                            print(st);
-                          });
-                        },
-                      );
-                    }),
-              );
-            },
-            onAccept: (data) {
-              setState(() {
-                list.add(data);
-                print('Drpped');
-                height += 50;
-                st.add('');
-              });
-            },
+          Expanded(
+            child: Container(
+              child: DragTarget<Color>(
+                builder: (BuildContext context, List<Object?> candidateData,
+                    List<dynamic> rejectedData) {
+                  return ListView.builder(
+                      itemCount: list.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, i) {
+                        return DragTarget(
+                          builder: (BuildContext context,
+                              List<Object?> candidateData,
+                              List<dynamic> rejectedData) {
+                            return Container(
+                              height: 50,
+                              width: MediaQuery.of(context).size.width,
+                              color: list[i],
+                              child: Text(
+                                st[i],
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          },
+                          onAccept: (String data) {
+                            setState(() {
+                              st[i] = data;
+                              print(data);
+                              print(st);
+                            });
+                          },
+                        );
+                      });
+                },
+                onAccept: (data) {
+                  setState(() {
+                    list.add(data);
+                    print('Drpped');
+                    st.add('');
+                  });
+                },
+              ),
+            ),
           )
         ]),
       ]),
