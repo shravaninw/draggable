@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,14 +20,6 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-List colors() {
-  List c = [];
-  for (int i = 0; i < 12; i++) {
-    c.add(Colors.primaries[Random().nextInt(Colors.primaries.length)]);
-  }
-  return c;
-}
-
 class _MyHomePageState extends State<MyHomePage> {
   List<dynamic> c = [
     Colors.red,
@@ -38,7 +28,9 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
   List s = ['Hi', 'Hello', 'Good'];
   List list = [];
+  var height = 350.0;
   List st = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +62,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 80,
                   width: 80,
                   child: Draggable(
-                    feedback: Center(child: Text(s[index])),
+                    feedback: Center(
+                        child: Text(
+                      s[index],
+                      style: Theme.of(context).textTheme.caption!.copyWith(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontWeight: FontWeight.normal),
+                    )),
                     child: Center(child: Text(s[index])),
                     data: s[index],
                   ),
@@ -79,16 +78,19 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            child: Container(
-              child: DragTarget<Color>(
-                builder: (BuildContext context, List<Object?> candidateData,
-                    List<dynamic> rejectedData) {
-                  return ListView.builder(
-                      itemCount: list.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, i) {
-                        return DragTarget(
+          DragTarget<Color>(
+            builder: (BuildContext context, List<Object?> candidateData,
+                List<dynamic> rejectedData) {
+              return Container(
+                color: Colors.brown,
+                height: height,
+                child: ListView.builder(
+                    itemCount: list.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, i) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DragTarget(
                           builder: (BuildContext context,
                               List<Object?> candidateData,
                               List<dynamic> rejectedData) {
@@ -109,18 +111,20 @@ class _MyHomePageState extends State<MyHomePage> {
                               print(st);
                             });
                           },
-                        );
-                      });
-                },
-                onAccept: (data) {
-                  setState(() {
-                    list.add(data);
-                    print('Drpped');
-                    st.add('');
-                  });
-                },
-              ),
-            ),
+                        ),
+                      );
+                    }),
+              );
+            },
+            onAccept: (data) {
+              setState(() {
+                list.add(data);
+                print('Drpped');
+                height += 50;
+                st.add('');
+                print(st);
+              });
+            },
           )
         ]),
       ]),
