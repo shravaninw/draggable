@@ -33,7 +33,7 @@ List colors() {
 class _MyHomePageState extends State<MyHomePage> {
   List c = colors();
   List list = [];
-  var height = 100.0;
+  var height = 350.0;
 
   @override
   Widget build(BuildContext context) {
